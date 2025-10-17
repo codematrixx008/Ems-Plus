@@ -1,0 +1,40 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #fafafa;
+  color: #222;
+}
+
+table {
+  font-size: 14px;
+}
+
+th, td {
+  border-bottom: 1px solid #eee;
+}
+
+.stripedRow {
+  background: #fcfcfc;
+}
+
+button {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+input[type="text"], input[type="number"], input[type="date"], select {
+  border: 1px solid #ccc;
+  padding: 6px;
+  border-radius: 4px;
+  width: 100%;
+}

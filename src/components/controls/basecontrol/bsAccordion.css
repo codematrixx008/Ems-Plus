@@ -1,0 +1,38 @@
+.sg-accordion__item {
+  border-top: 1px solid var(--cx-border, #ccc);
+}
+
+.sg-accordion__header {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--cx-label, #111);
+}
+
+.sg-accordion__title {
+  flex: 1;
+  text-align: left;
+}
+
+.sg-accordion__tools {
+  margin-right: -1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.sg-accordion__chevron {
+  font-size: 0.9rem;
+  opacity: 0.6;
+}
+
+.sg-accordion__panel {
+  padding: 0.75rem 1rem;
+  background: var(--cx-surface, #fafafa);
+  border-top: 1px solid var(--cx-border, #ddd);
+}

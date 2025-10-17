@@ -1,0 +1,132 @@
+.SEDB-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    z-index: 2000;
+}
+
+.SEDB-dialog-box {
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 0px;
+    width: 100%;
+    max-width: 600px;
+    /* Set a max-width for larger screens */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.Custom-SEDB-dialog-box {
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 0px;
+    width: 100%;
+    max-width: 400px;
+    /* Set a max-width for larger screens */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.SEDB-dialog {
+    padding: 20px 20px 20px 15px;
+    min-height: 40px !important;
+    display: flex;
+}
+
+.Created-SEDB-dialog {
+    padding: 10px 10px 10px 15px;
+    min-height: 10px !important;
+    max-width: 400px !important;
+    display: flex;
+}
+
+.SEDB-dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 5px;
+}
+
+.SEDB-dialog-formTitle {
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0;
+    /* Remove default margin */
+}
+
+.SEDB-dialogTitle {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    /* Remove default margin */
+}
+
+.SEDB-dialog-content {
+    flex-grow: 1;
+    /* Allow content to grow */
+    align-content: center;
+}
+
+.SEDB-dialogMessage {
+    font-size: 16px;
+    margin: 0 0 10px 0;
+    /* Add margin for spacing */
+}
+
+.SEDB-dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 0px;
+    padding: 10px 10px;
+    background-color: #f2f2f2;
+    border-radius: 0px 0px 4px 4px;
+}
+
+.SEDB-dialog-button {
+    background-color: #f09822 !important;
+    color: white !important;
+    height: 30px !important;
+    padding: 5px 5px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+    box-shadow: 0px 0px 2px grey;
+}
+
+.SEDB-dialog-close-button {
+    background-color: transparent;
+    color: #2f2f2f;
+    border: none;
+    box-shadow: none;
+}
+
+@media (max-width: 600px) {
+    .SEDB-dialog {
+        padding: 10px;
+    }
+
+    .SEDB-dialogTitle {
+        font-size: 16px;
+    }
+
+    .SEDB-dialogMessage {
+        font-size: 14px;
+    }
+
+    .SEDB-dialog-button {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+}

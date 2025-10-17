@@ -1,0 +1,20 @@
+.grid-controls .btn {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fff;
+  font-weight: 500;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 90px;
+}
+
+.grid-controls .btn:hover:not(:disabled) {
+  background: #f3f4f6;
+}
+
+.grid-controls .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

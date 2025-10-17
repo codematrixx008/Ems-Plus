@@ -1,0 +1,72 @@
+/* ================================
+   Classic Two-Level Tab UI
+   ================================ */
+
+.ntabs-container {
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 14px;
+  border: 1px solid #bcd;
+  border-top: none;
+}
+
+/* ---- MAIN TABS ---- */
+.ntabs-main {
+  display: flex;
+  background: #fff;
+  border-bottom: 1px solid #bcd;
+}
+
+.ntab-btn {
+  background: #fff;
+  border: 1px solid #bcd;
+  border-bottom: none;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  padding: 6px 14px;
+  margin-right: 2px;
+  cursor: pointer;
+  color: #333;
+  font-weight: 500;
+}
+
+.ntab-btn:hover {
+  background: #f5f8ff;
+}
+
+.ntab-btn.active {
+  background: #e8f2ff;
+  border-color: #7db2ff;
+  font-weight: 600;
+}
+
+/* ---- SUB TABS ---- */
+.ntabs-sub {
+  display: flex;
+  align-items: center;
+  background: #cbe5ff;
+  padding: 4px 8px;
+  border-top: 1px solid #7db2ff;
+  border-bottom: 1px solid #7db2ff;
+}
+
+.nsub-btn {
+  background: transparent;
+  border: none;
+  color: #004b8d;
+  font-weight: 500;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.nsub-btn.active {
+  color: #000;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* ---- CONTENT ---- */
+.ntabs-content {
+  background: #fff;
+  padding: 10px;
+  border-top: none;
+}

@@ -1,0 +1,200 @@
+/* ===========================================================
+   🎨 DataTable Styles — Modern CX-inspired Design
+   =========================================================== */
+
+:root {
+  --ctl-bg: #f9fafb;
+  --ctl-surface: #ffffff;
+  --ctl-elev: #f3f4f6;
+  --ctl-border: #d1d5db;
+  --ctl-muted: #6b7280;
+  --ctl-label: #111827;
+  --ctl-accent: #0ea5e9;
+  --ctl-accent-light: #e0f2fe;
+}
+
+/* ---------- Wrapper ---------- */
+.cx-table-wrapper {
+  background: var(--ctl-surface);
+  border: 1px solid var(--ctl-border);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(17, 24, 39, 0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Header ---------- */
+.cx-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--ctl-border);
+  background: var(--ctl-elev);
+}
+
+.cx-input {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--ctl-border);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  background: var(--ctl-bg);
+  width: 200px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.cx-input:focus {
+  border-color: var(--ctl-accent);
+}
+
+/* ---------- Table Container ---------- */
+.cx-table-container {
+  max-height: 450px;
+  overflow: auto;
+  position: relative;
+  scrollbar-width: thin;
+}
+.cx-table-container::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+.cx-table-container::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 6px;
+}
+
+/* ---------- Table ---------- */
+.cx-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  color: var(--ctl-label);
+}
+
+.cx-table th,
+.cx-table td {
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid var(--ctl-border);
+  background: var(--ctl-surface);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.cx-table th {
+  font-weight: 600;
+  color: var(--ctl-label);
+  background: var(--ctl-elev);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  box-shadow: 0 1px 0 var(--ctl-border);
+}
+
+.cx-sortable {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.cx-sortable:hover {
+  color: var(--ctl-accent);
+}
+.cx-sort-icon {
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+/* ---------- Frozen Columns ---------- */
+.cx-table th[style*="position: sticky"],
+.cx-table td[style*="position: sticky"] {
+  box-shadow: 2px 0 3px rgba(0, 0, 0, 0.05);
+  background: var(--ctl-surface);
+}
+
+/* ---------- Row States ---------- */
+.cx-row:hover {
+  background: var(--ctl-elev);
+}
+
+.cx-row.selected {
+  background: var(--ctl-accent-light) !important;
+}
+
+/* ---------- Inline Editing ---------- */
+.cx-table td input[type="text"],
+.cx-table td input[type="number"],
+.cx-table td input[type="date"] {
+  width: 100%;
+  border: 1px solid var(--ctl-border);
+  border-radius: 4px;
+  padding: 0.3rem;
+  font-size: 0.85rem;
+  background: var(--ctl-bg);
+}
+.cx-table td input:focus {
+  outline: none;
+  border-color: var(--ctl-accent);
+}
+
+/* ---------- Column Filters ---------- */
+.cx-col-filter {
+  margin-top: 4px;
+}
+.cx-col-filter input,
+.cx-col-filter select {
+  width: 100%;
+  font-size: 0.75rem;
+  padding: 0.25rem;
+  border: 1px solid var(--ctl-border);
+  border-radius: 3px;
+  background: var(--ctl-bg);
+}
+.num-filter {
+  display: flex;
+  gap: 3px;
+}
+.num-filter input {
+  width: 48%;
+}
+
+/* ---------- Pagination Footer ---------- */
+.cx-table-footer {
+  padding: 0.6rem 1rem;
+  border-top: 1px solid var(--ctl-border);
+  background: var(--ctl-elev);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cx-pagination button {
+  margin-left: 0.4rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--ctl-border);
+  border-radius: 4px;
+  background: var(--ctl-bg);
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+.cx-pagination button:hover {
+  background: var(--ctl-accent-light);
+  border-color: var(--ctl-accent);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .cx-table-header {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+  .cx-input {
+    width: 100%;
+  }
+  .cx-table-container {
+    max-height: 350px;
+  }
+}
