@@ -1,0 +1,6 @@
+{
+  "rules": {
+    "react/jsx-no-undef": "off",
+    "import/first": "off"
+  }
+}
