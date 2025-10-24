@@ -1,4 +1,4 @@
-import { ActionIdentifier } from "../section/SectionGrid3";
+import { ActionIdentifier } from "./actions";
 
 // shared types
 export type DbType = 'Varchar' | 'Int' | 'Date' | 'datetime' | 'Bit' | 'Currency';
