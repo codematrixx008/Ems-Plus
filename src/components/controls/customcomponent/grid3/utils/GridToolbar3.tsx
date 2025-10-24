@@ -1,6 +1,6 @@
 import React from 'react';
-import { GridSettings } from './utils/types';
-import { BsInputControl } from '../../basecontrol';
+import { GridSettings } from './types';
+import { BsInputControl } from '../../../basecontrol';
 
 type Props = {
   settings: GridSettings;
@@ -9,7 +9,7 @@ type Props = {
   onOpenCustomize: () => void;
   onExportCsv: () => void;
 };
-const GridToolbar: React.FC<Props> = ({ settings, search, onSearchChange, onOpenCustomize, onExportCsv }) => {
+const GridToolbar3: React.FC<Props> = ({ settings, search, onSearchChange, onOpenCustomize, onExportCsv }) => {
   return (
     <div style={{ display: 'flex', gap: 8, padding: 8, alignItems: 'center' }}>
       {settings?.isGlobalSearchVisible !== false && (
@@ -27,4 +27,4 @@ const GridToolbar: React.FC<Props> = ({ settings, search, onSearchChange, onOpen
     </div>
   );
 };
-export default GridToolbar;
+export default GridToolbar3;

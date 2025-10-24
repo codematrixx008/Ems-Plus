@@ -16,6 +16,7 @@ export interface ColumnDef {
   DbDateType?: DbType;
   CustomPopover?: boolean;
   Email?: string;
+  validate?: any;
 }
 
 export interface GridSettings {

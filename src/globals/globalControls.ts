@@ -73,4 +73,4 @@ Object.assign(window, {
   BsDataTable,
 });
 
-console.log("✅ Global controls registered successfully!");
+console.log(" Global controls registered successfully!");

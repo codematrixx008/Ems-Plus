@@ -140,7 +140,7 @@ export function BsDataTable<T extends Record<string, any>>({
     }
   };
 
-  // ✅ Row selection
+  //  Row selection
   const toggleRow = (index: number) => {
     setSelectedRows((prev) =>
       prev.includes(index)
