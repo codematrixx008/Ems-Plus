@@ -24,8 +24,6 @@ type Props = {
   onCommit?: (rowId?: number, colKey?: string, value?: any) => void;
   onCancel?: () => void;
   optionProviders?: Record<string, OptionProvider>;
-
-  // ✅ Add this line
   filters?: Record<string, any>;
 };
 
@@ -46,7 +44,7 @@ const GridTable3: React.FC<Props> = ({
   onCommit,
   onCancel,
   optionProviders,
-  filters: externalFilters, // ✅ new prop
+  filters: externalFilters,
 }) => {
   // ✅ Manage filters here
   const [filters, setFilters] = useState<Record<string, any>>(externalFilters ?? {});
@@ -103,8 +101,6 @@ const GridTable3: React.FC<Props> = ({
       });
     });
   }, [rows, filters, enableFiltering]);
-
-
 
   return (
     <div
