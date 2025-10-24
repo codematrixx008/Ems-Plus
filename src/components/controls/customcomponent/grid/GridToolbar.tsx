@@ -23,10 +23,7 @@ const GridToolbar: React.FC<Props> = ({ settings, search, onSearchChange, onOpen
           {search && <button onClick={() => onSearchChange('')}>Clear</button>}
         </>
       )}
-      {/* <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
-        <button onClick={onExportCsv}>Export CSV</button>
-        <button onClick={onOpenCustomize}>Customize Columns</button>
-      </div> */}
+
     </div>
   );
 };

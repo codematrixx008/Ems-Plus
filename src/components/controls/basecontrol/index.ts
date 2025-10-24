@@ -20,7 +20,7 @@ export * from "./BsTooltip";
 export * from "./BsPopover";
 export * from "./BsTabs";
 export * from "./BsAccordion";
-export * from "./BsToast";          // ✅ <-- make sure this line exists
+export * from "./BsToast";          //  <-- make sure this line exists
 export * from "./BsDropdownMenu";
 export * from "./BsBreadcrumbs";
 export * from "./BsPagination";

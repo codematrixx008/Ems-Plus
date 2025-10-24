@@ -1,5 +1,5 @@
 // =============================================
-// ✅ BsCommon.ts — Common Props & Field Helpers
+//  BsCommon.ts — Common Props & Field Helpers
 // =============================================
 
 import React, { InputHTMLAttributes } from "react";
@@ -94,7 +94,7 @@ export const FieldChrome: React.FC<FieldChromeProps & { children: React.ReactNod
   );
 };
 
-// ✅ Export BsCommon object to avoid missing member errors
+//  Export BsCommon object to avoid missing member errors
 export const BsCommon = {
   sizePad,
   fieldBase,
