@@ -141,7 +141,7 @@ const getDropdownOptions = {
                     defaultOpen={true}
                     topButtonsComponent={CrudFormButtons}
                     formColumnsArray={UIColumnList}
-                     getDropdownOptions={getDropdownOptions} 
+                    getDropdownOptions={getDropdownOptions} 
                     useFormControls={true}
                 />
 

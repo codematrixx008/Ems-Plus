@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { EditAddModalProps, GridSchema, Row } from './utils/types';
 import { useExports } from './hooks/useExports';
 import { useGridState } from './hooks/useGridState';
@@ -36,6 +36,8 @@ type Props = {
   children?: React.ReactNode;
   selectedIds?: number[];
   setSelectedIds?: React.Dispatch<React.SetStateAction<number[]>>;
+  actionType?: string | null
+  onActionHandled?: () => void
 };
 type EditingCell = { rowId: number; colKey: string; draft: any; error?: string | null; };
 
@@ -52,21 +54,23 @@ const GridContainer3: React.FC<Props> = ({
   useGridControls = false,
   children,
   selectedIds: propSelectedIds,
-  setSelectedIds: propSetSelectedIds
+  setSelectedIds: propSetSelectedIds,
+  actionType,
+  onActionHandled
 }) => {
 
   const [localRows, setLocalRows] = React.useState<Row[]>(rows);
-  
+
   // Local selection state management
   const [localSelectedIds, setLocalSelectedIds] = React.useState<number[]>([]);
-  
+
   // Use prop selection if provided, otherwise use local state
   const selectedIds = propSelectedIds ?? localSelectedIds;
   const setSelectedIds = propSetSelectedIds ?? setLocalSelectedIds;
 
   // Apply sorting BEFORE passing to useGridState
   const [sort, setSort] = React.useState<{ col: string; dir: 'asc' | 'desc' } | null>(null);
-  
+
   const sortedRows = React.useMemo(() => {
     if (!sort) return localRows;
     return [...localRows].sort((a, b) => {
@@ -98,8 +102,8 @@ const GridContainer3: React.FC<Props> = ({
 
   // ---- Selection Handlers ----
   const handleToggleRow = (id: number) => {
-    setSelectedIds(prev => 
-      prev.includes(id) 
+    setSelectedIds(prev =>
+      prev.includes(id)
         ? prev.filter(selectedId => selectedId !== id)
         : [...prev, id]
     );
@@ -161,68 +165,97 @@ const GridContainer3: React.FC<Props> = ({
     setSort(prev => !prev || prev.col !== col ? { col, dir: 'asc' } : prev.dir === 'asc' ? { col, dir: 'desc' } : null);
   };
 
-  return (
-    <div style={{ display: 'grid', gap: 12 }}>
-      {useGridControls &&
-        <div className="grid-controls flex gap-2 mb-3">
-          <BsButtonControl title="Add" onClick={() => setEditModal({ open: true, mode: "Add" })}><FiPlus /></BsButtonControl>
-          <BsButtonControl title="Edit" disabled={selectedIds.length !== 1} onClick={() =>
-            setEditModal({ open: true, mode: "Edit", row: localRows.find(r => r.Id === selectedIds[0]) })}><FiEdit /></BsButtonControl>
-          <BsButtonControl title="Delete" disabled={selectedIds.length === 0} onClick={() => setShowDeleteModal(true)}><FiTrash2 /></BsButtonControl>
-        </div>
-      }
 
-      <GridTable3
-        rows={pageRows} // This now contains properly paginated AND sorted data
-        columns={columns}
-        onSort={cycleSort}
-        selectedIds={selectedIds}
-        onToggleRow={handleToggleRow}
-        onToggleSelectAll={handleToggleSelectAll}
-        selectAllChecked={isSelectAllChecked}
-        onHyperlink={onOpenRecord}
-        editing={editing}
-        onStartEdit={startEdit}
-        onDraftChange={(draft) => setEditing(prev => prev ? { ...prev, draft, error: null } : prev)}
-        onCommit={commitEdit}
-        onCancel={cancelEdit}
-        optionProviders={optionProviders}
-        settings={schema.settings}
-        filters={enableFiltering ? filters : {}} />
 
-      {enablePagination && (
-        <Pagination3
-          total={total}
-          pageNo={pageNo}
-          pageSize={pageSize}
-          pageSizeList={pageSizeList}
-          onPageNo={setPageNo}
-          onPageSize={(n) => { setPageSize(n); setPageNo(1); }}
+  const handleAddAction = () => {
+    setEditModal({ open: true, mode: 'Add' });
+  }
+
+  const handleEditAction = () => {
+    if (selectedIds.length === 1) {
+      const rowToEdit = localRows.find(r => r.Id === selectedIds[0]);
+      setEditModal({ open: true, mode: 'Edit', row: rowToEdit });
+    }
+  }
+
+    const handleDeleteAction = () => {
+      setShowDeleteModal(true);
+    }
+
+    // 🔹 External Save / Cancel Actions
+    useEffect(() => {
+      if (!actionType) return
+      if (actionType === 'add') handleAddAction()
+      else if (actionType === 'edit') handleEditAction()
+      else if (actionType === 'delete') handleDeleteAction()
+      onActionHandled?.()
+    }, [actionType])
+
+
+
+    return (
+      <div style={{ display: 'grid', gap: 12 }}>
+        {useGridControls &&
+          <div className="grid-controls flex gap-2 mb-3">
+            <BsButtonControl title="Add" onClick={() => handleAddAction()}><FiPlus /></BsButtonControl>
+            <BsButtonControl title="Edit" disabled={selectedIds.length !== 1} onClick={() => handleEditAction()}><FiEdit /></BsButtonControl>
+            {/* <BsButtonControl title="Edit" disabled={selectedIds.length !== 1} onClick={() =>
+            setEditModal({ open: true, mode: "Edit", row: localRows.find(r => r.Id === selectedIds[0]) })}><FiEdit /></BsButtonControl> */}
+            <BsButtonControl title="Delete" disabled={selectedIds.length === 0} onClick={() => handleDeleteAction()}><FiTrash2 /></BsButtonControl>
+          </div>
+        }
+
+        <GridTable3
+          rows={pageRows} // This now contains properly paginated AND sorted data
+          columns={columns}
+          onSort={cycleSort}
+          selectedIds={selectedIds}
+          onToggleRow={handleToggleRow}
+          onToggleSelectAll={handleToggleSelectAll}
+          selectAllChecked={isSelectAllChecked}
+          onHyperlink={onOpenRecord}
+          editing={editing}
+          onStartEdit={startEdit}
+          onDraftChange={(draft) => setEditing(prev => prev ? { ...prev, draft, error: null } : prev)}
+          onCommit={commitEdit}
+          onCancel={cancelEdit}
+          optionProviders={optionProviders}
+          settings={schema.settings}
+          filters={enableFiltering ? filters : {}} />
+
+        {enablePagination && (
+          <Pagination3
+            total={total}
+            pageNo={pageNo}
+            pageSize={pageSize}
+            pageSizeList={pageSizeList}
+            onPageNo={setPageNo}
+            onPageSize={(n) => { setPageSize(n); setPageNo(1); }}
+          />
+        )}
+
+        <ColumnCustomizerModal3
+          open={showCustomize}
+          columns={schema.columns}
+          onClose={() => setShowCustomize(false)}
+          onApply={(cols) => { schema.columns.splice(0, schema.columns.length, ...cols); setShowCustomize(false); }}
         />
-      )}
 
-      <ColumnCustomizerModal3
-        open={showCustomize}
-        columns={schema.columns}
-        onClose={() => setShowCustomize(false)}
-        onApply={(cols) => { schema.columns.splice(0, schema.columns.length, ...cols); setShowCustomize(false); }}
-      />
+        <DeleteConfirmModal3
+          open={showDeleteModal}
+          onClose={() => setShowDeleteModal(false)}
+          count={selectedIds.length}
+          onConfirm={() => {
+            setLocalRows(prev => prev.filter(r => !selectedIds.includes(r.Id)));
+            setShowDeleteModal(false);
+            setSelectedIds([]);
+            onAction?.('Delete', selectedIds);
+          }}
+        />
 
-      <DeleteConfirmModal3
-        open={showDeleteModal}
-        onClose={() => setShowDeleteModal(false)}
-        count={selectedIds.length}
-        onConfirm={() => {
-          setLocalRows(prev => prev.filter(r => !selectedIds.includes(r.Id)));
-          setShowDeleteModal(false);
-          setSelectedIds([]);
-          onAction?.('Delete', selectedIds);
-        }}
-      />
+        {React.isValidElement(children) ? React.cloneElement(children, editCtx) : <EditAddModal3 {...editCtx} />}
+      </div>
+    );
+  };
 
-      {React.isValidElement(children) ? React.cloneElement(children, editCtx) : <EditAddModal3 {...editCtx} />}
-    </div>
-  );
-};
-
-export default GridContainer3;
+  export default GridContainer3;
