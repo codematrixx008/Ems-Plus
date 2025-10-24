@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 
-
 type FormColumn = {
     Id: number
     ColumnName: string
@@ -22,13 +21,12 @@ type FormColumn = {
 type DynamicFormProps = {
     formColumnsArray: FormColumn[]
     useFormControls?: boolean
-    actionType?: string | null; // 🔹 new: receives "save" / "cancel"
-    onActionHandled?: () => void; // 🔹 new: resets action after handling
+    actionType?: string | null
+    onActionHandled?: () => void
 }
 
-const DynamicForm = ({ formColumnsArray, useFormControls, actionType,
-    onActionHandled, }: DynamicFormProps) => {
-
+const DynamicForm = ({ formColumnsArray, useFormControls, actionType, onActionHandled }: DynamicFormProps) => {
+    // 🔹 Initialize Form
     const initialFormState = formColumnsArray.reduce((acc, col) => {
         acc[col.ColumnName] = col.ComponentType === 'Checkbox' ? false : ''
         return acc
@@ -36,48 +34,57 @@ const DynamicForm = ({ formColumnsArray, useFormControls, actionType,
 
     const [formData, setFormData] = useState<Record<string, any>>(initialFormState)
 
-    const handleChange = (name: string, value: any) => {
-        setFormData((prev) => ({ ...prev, [name]: value }))
+    // 🔹 Dropdown options mock data (can be fetched via API)
+    const dropdownData: Record<number, { label: string; value: string }[]> = {
+        1: [
+            { label: 'HR', value: 'HR' },
+            { label: 'IT', value: 'IT' },
+            { label: 'Finance', value: 'Finance' }
+        ],
+        2: [
+            { label: 'Male', value: 'Male' },
+            { label: 'Female', value: 'Female' },
+            { label: 'Other', value: 'Other' }
+        ]
     }
 
 
-    const handleSubmit = (e?: React.FormEvent) => {
-        if (e) e.preventDefault(); // prevent page refresh
-        console.log('Form Submitted:', formData);
-    };
+    const handleChange = (name: string, value: any) => {
+        setFormData(prev => ({ ...prev, [name]: value }))
+    }
 
+    const handleSubmit = (e?: React.FormEvent) => {
+        if (e) e.preventDefault()
+        console.log('✅ Form Submitted:', formData)
+    }
 
     const handleCancel = () => {
-        console.log('❌ Form Reset');
-        setFormData(initialFormState);
-    };
+        console.log('❌ Form Reset')
+        setFormData(initialFormState)
+    }
 
+    // 🔹 External Save / Cancel Actions
     useEffect(() => {
-        if (!actionType) return;
-        if (actionType === 'save') {
-            handleSubmit();
-        } else if (actionType === 'cancel') {
-            handleCancel();
-        }
-        onActionHandled?.(); // reset after handling
-    }, [actionType]);
+        if (!actionType) return
+        if (actionType === 'save') handleSubmit()
+        else if (actionType === 'cancel') handleCancel()
+        onActionHandled?.()
+    }, [actionType])
 
     return (
         <form className="space-y-4" onSubmit={handleSubmit}>
-            {formColumnsArray.map((col) => {
+            {formColumnsArray.map(col => {
                 switch (col.ComponentType) {
                     case 'Textbox':
                         return (
-                                <BsInputControl
-                                    key={col.Id}
-                                    id="name"
-                                    label={col.ColumnName}
-                                    placeholder={col.Placeholder}
-                                    value={formData[col.ColumnName]}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                        handleChange(col.ColumnName, e.target.value)
-                                    }
-                                />
+                            <BsInputControl
+                                key={col.Id}
+                                id={col.ColumnName}
+                                label={col.ColumnName}
+                                placeholder={col.Placeholder}
+                                value={formData[col.ColumnName]}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(col.ColumnName, e.target.value)}
+                            />
                         )
 
                     case 'CurrencyTextbox':
@@ -91,9 +98,7 @@ const DynamicForm = ({ formColumnsArray, useFormControls, actionType,
                                 step={1}
                                 required={col.IsRequired}
                                 value={formData[col.ColumnName]}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                    handleChange(col.ColumnName, e.target.value)
-                                }
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(col.ColumnName, e.target.value)}
                             />
                         )
 
@@ -106,9 +111,7 @@ const DynamicForm = ({ formColumnsArray, useFormControls, actionType,
                                 placeholder={col.Placeholder}
                                 required={col.IsRequired}
                                 value={formData[col.ColumnName]}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                    handleChange(col.ColumnName, e.target.value)
-                                }
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(col.ColumnName, e.target.value)}
                             />
                         )
 
@@ -118,10 +121,14 @@ const DynamicForm = ({ formColumnsArray, useFormControls, actionType,
                                 key={col.Id}
                                 id={col.ColumnName}
                                 label={col.ColumnName}
-                                options={[]} // dynamic options can be passed here
+                                // options={dropdownData[col.DropdownId] || []}
+                                options={[
+                                    { label: `Please select ${col.ColumnName}`, value: '' },
+                                    ...(dropdownData[col.DropdownId] || [])
+                                ]}
                                 required={col.IsRequired}
                                 value={formData[col.ColumnName]}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                                     handleChange(col.ColumnName, e.target.value)
                                 }
                             />
@@ -132,11 +139,8 @@ const DynamicForm = ({ formColumnsArray, useFormControls, actionType,
                             <BsCheckboxControl
                                 key={col.Id}
                                 id={col.ColumnName}
-                                required={col.IsRequired}
                                 checked={formData[col.ColumnName]}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                    handleChange(col.ColumnName, e.target.value)
-                                }
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(col.ColumnName, e.target.checked)}
                             >
                                 {col.ColumnName}
                             </BsCheckboxControl>
@@ -146,16 +150,17 @@ const DynamicForm = ({ formColumnsArray, useFormControls, actionType,
                         return null
                 }
             })}
-            {useFormControls &&
+
+            {useFormControls && (
                 <div className="pt-4 flex justify-end gap-3">
                     <button type="submit" className="btn btn-primary">
                         Save
                     </button>
-                    <button type="button" className="btn btn-danger">
+                    <button type="button" className="btn btn-danger" onClick={handleCancel}>
                         Cancel
                     </button>
                 </div>
-            }
+            )}
         </form>
     )
 }
