@@ -17,27 +17,24 @@ const EmployeeDetailPage3: React.FC = () => {
     console.log('✅ EmployeeDetailPage3 component rendering started');
 
     // ----- Handle Actions -----
-    const handleAction = (id: string, ctx?: { schemaTitle?: string; rows?: any[]; columns?: any[] }) => {
-        console.log('🟢 handleAction called with:', { id, ctx });
+    // const handleAction = (id: string, ctx?: { schemaTitle?: string; rows?: any[]; columns?: any[] }) => {
+    //     console.log('handleAction called with:', { id, ctx });
 
-        if (id === 'export:csv' && ctx?.rows && ctx?.columns) {
-            console.log('📦 Exporting CSV for:', ctx.schemaTitle);
-            exportCsv(ctx.rows, ctx.columns, ctx.schemaTitle ?? 'export');
-            console.log('✅ CSV export completed');
-        } else {
-            console.log('⚠️ Unhandled action:', id);
-        }
-    };
+    //     if (id === 'export:csv' && ctx?.rows && ctx?.columns) {
+    //         console.log('📦 Exporting CSV for:', ctx.schemaTitle);
+    //         exportCsv(ctx.rows, ctx.columns, ctx.schemaTitle ?? 'export');
+    //         console.log('✅ CSV export completed');
+    //     } else {
+    //         console.log('⚠️ Unhandled action:', id);
+    //     }
+    // };
 
     // ----- Option Providers -----
-    console.log('🔧 Initializing optionProviders using useMemo');
     const optionProviders = useMemo(() => {
         console.log('🧩 useMemo executed for optionProviders');
         return { Employee: employeeProvider };
     }, []);
-    console.log('✅ optionProviders initialized:', optionProviders);
-
-    console.log('🚀 Rendering EmployeeDetailPage3 UI');
+   
     return (
         <div className="container">
             {/* Employees Section */}
@@ -47,17 +44,15 @@ const EmployeeDetailPage3: React.FC = () => {
                     schema={employeeSectionSchema.columns as any}
                     rows={employeeSectionRows}
                     defaultOpen={true}
-                    onAction={(id, payload) => {
-                        console.log('📣 Employees SectionGrid3 onAction triggered:', { id, payload });
-                        handleAction(id, {
-                            schemaTitle: employeeSectionSchema.title,
-                            rows: employeeSectionRows,
-                            columns: employeeSectionSchema.columns,
-                        });
-                        alert(`Employees action: ${id}, payload=${JSON.stringify(payload)}`);
-                    }}
+                    // onAction={(id, payload) => {
+                    //     handleAction(id, {
+                    //         schemaTitle: employeeSectionSchema.title,
+                    //         rows: employeeSectionRows,
+                    //         columns: employeeSectionSchema.columns,
+                    //     });
+                    // }}
                     topButtonsComponent={CrudCsvButtons}
-                    useGridControls={true}
+                    useGridControls={false}
                     optionProviders={optionProviders}
                 >
                     <EmployeeAddModal3 modalType="Add" />
@@ -74,15 +69,15 @@ const EmployeeDetailPage3: React.FC = () => {
                     schema={phoneSchema.columns as any}
                     rows={phoneRows}
                     defaultOpen={false}
-                    onAction={(id, payload) => {
-                        console.log('📣 Phone SectionGrid3 onAction triggered:', { id, payload });
-                        handleAction(id, {
-                            schemaTitle: phoneSchema.title,
-                            rows: phoneRows,
-                            columns: phoneSchema.columns,
-                        });
-                        alert(`Phone Numbers action: ${id}, payload=${JSON.stringify(payload)}`);
-                    }}
+                    // onAction={(id, payload) => {
+                    //     console.log('📣 Phone SectionGrid3 onAction triggered:', { id, payload });
+                    //     handleAction(id, {
+                    //         schemaTitle: phoneSchema.title,
+                    //         rows: phoneRows,
+                    //         columns: phoneSchema.columns,
+                    //     });
+                    //     alert(`Phone Numbers action: ${id}, payload=${JSON.stringify(payload)}`);
+                    // }}
                     topButtonsComponent={PhoneButtons}
                     useGridControls={true}
                     optionProviders={optionProviders}

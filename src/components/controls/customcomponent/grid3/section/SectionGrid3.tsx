@@ -7,14 +7,16 @@ import { OptionProvider } from "./optionProviders";
 import "./sectionGrid.css";
 import { TopButton } from "../buttons/SectionGridTopButton3";
 import { SectionGridTopButton } from "../buttons/SectionGridTopButtons";
+import { exportCsv } from "../utils/export";
+import { ActionIdentifier } from "../utils/actions";
 
-export type ActionIdentifier = string;
+// export type ActionIdentifier = string;
 
 export type SectionGrid3Props = {
   title: string;
   schema: ColumnDef[];
   rows: Row[];
-  onAction?: (id: ActionIdentifier, payload?: any) => void;
+  // onAction?: (id: ActionIdentifier, payload?: any) => void;
   topButtons?: TopButton[];
   topButtonsComponent?: React.ComponentType<TopButtonsComponentProps>;
   optionProviders?: Record<string, OptionProvider>;
@@ -28,7 +30,7 @@ export default function SectionGrid3({
   title,
   schema,
   rows,
-  onAction,
+  // onAction,
   topButtons,
   topButtonsComponent: TopButtonsComponent,
   optionProviders,
@@ -37,43 +39,37 @@ export default function SectionGrid3({
   accordionId,
   children,
 }: SectionGrid3Props) {
-  console.log("✅ Rendering SectionGrid3:", { title });
-  console.log("🧩 Props received:", {
-    title,
-    schema,
-    rowsCount: rows?.length,
-    hasOnAction: !!onAction,
-    topButtons: topButtons?.length,
-    hasTopButtonsComponent: !!TopButtonsComponent,
-    optionProviders,
-    useGridControls,
-    defaultOpen,
-    accordionId,
-  });
+  
 
   const [selectedIds, setSelectedIds] = React.useState<number[]>([]);
-  console.log("🎯 Initial selectedIds:", selectedIds);
+const [actionType, setActionType] = React.useState<ActionIdentifier|null>(null);
 
-  // 🔹 Helper to trigger parent onAction
-  const emit = React.useCallback(
-    (id: ActionIdentifier, payload?: any) => {
-      console.log("📣 emit called with:", { id, payload });
-      if (onAction) {
-        console.log("➡️ Triggering parent onAction handler");
-        onAction(id, payload);
-      } else {
-        console.log("⚠️ No onAction handler provided");
-      }
-    },
-    [onAction]
-  );
+
+const onAction = React.useCallback(
+  (id: string, ctx?: { schemaTitle?: string; rows?: any[]; columns?: any[] }) => {
+    if (id === "export:csv" && ctx?.rows && ctx?.columns) {
+      exportCsv(ctx.rows, ctx.columns, ctx.schemaTitle ?? "export");
+    } else {
+      setActionType(id as ActionIdentifier);
+    }
+  },
+  []
+);
+
+const emit = React.useCallback(
+  (id: ActionIdentifier, payload?: any) => {
+    console.log("📣 Emit:", { id, payload });
+    onAction?.(id, payload);
+  },
+  [onAction]
+);
+
 
   // 🔹 Unique Accordion ID
   const baseId =
     accordionId ?? `sectiongrid3-${title.replace(/\s+/g, "-").toLowerCase()}`;
   console.log("🆔 Computed baseId for accordion:", baseId);
 
-  console.log("🚀 Rendering BsAccordion component...");
   return (
     <div className="sg3-accordion">
       <BsAccordion
@@ -115,11 +111,10 @@ export default function SectionGrid3({
                         </>
                       ) : topButtons ? (
                         <>
-                          {console.log("🔘 Rendering SectionGridTopButton with items:", topButtons)}
                           <SectionGridTopButton
                             items={topButtons}
                             selectedIds={selectedIds}
-                            emit={emit}
+                            emit={(id: string, payload?: any) => emit(id as ActionIdentifier, payload)}
                           />
                         </>
                       ) : (
@@ -149,6 +144,8 @@ export default function SectionGrid3({
                       console.log("📂 Record opened with id:", id);
                       emit("open", { id });
                     }}
+                    actionType={actionType} 
+                    onActionHandled={() => setActionType(null)}
                   >
                     {children}
                   </GridContainer3>
