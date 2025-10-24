@@ -11,6 +11,7 @@ type SectionFormProps = {
   onOpenChange?: (open: boolean) => void;
   accordionId?: string;
   useFormControls?: boolean;
+   getDropdownOptions?: Record<number, { label: string; value: string }[]> 
   formColumnsArray: {
     Id: number;
     ColumnName: string;
@@ -39,6 +40,7 @@ const SectionForm: React.FC<SectionFormProps> = ({
   onOpenChange,
   accordionId,
   useFormControls,
+  getDropdownOptions = {},
   formColumnsArray,
 }) => {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
@@ -108,6 +110,7 @@ const SectionForm: React.FC<SectionFormProps> = ({
                   <div className="p-2">
                     <DynamicForm
                       formColumnsArray={formColumnsArray}
+                       getDropdownOptions={getDropdownOptions} 
                       useFormControls={useFormControls}
                       actionType={actionType} 
                       onActionHandled={() => setActionType(null)}

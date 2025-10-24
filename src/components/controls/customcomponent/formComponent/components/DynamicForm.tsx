@@ -23,9 +23,10 @@ type DynamicFormProps = {
     useFormControls?: boolean
     actionType?: string | null
     onActionHandled?: () => void
+    getDropdownOptions?: Record<number, { label: string; value: string }[]> 
 }
 
-const DynamicForm = ({ formColumnsArray, useFormControls, actionType, onActionHandled }: DynamicFormProps) => {
+const DynamicForm = ({ formColumnsArray, getDropdownOptions = {}, useFormControls, actionType, onActionHandled }: DynamicFormProps) => {
     // 🔹 Initialize Form
     const initialFormState = formColumnsArray.reduce((acc, col) => {
         acc[col.ColumnName] = col.ComponentType === 'Checkbox' ? false : ''
@@ -33,21 +34,6 @@ const DynamicForm = ({ formColumnsArray, useFormControls, actionType, onActionHa
     }, {} as Record<string, any>)
 
     const [formData, setFormData] = useState<Record<string, any>>(initialFormState)
-
-    // 🔹 Dropdown options mock data (can be fetched via API)
-    const dropdownData: Record<number, { label: string; value: string }[]> = {
-        1: [
-            { label: 'HR', value: 'HR' },
-            { label: 'IT', value: 'IT' },
-            { label: 'Finance', value: 'Finance' }
-        ],
-        2: [
-            { label: 'Male', value: 'Male' },
-            { label: 'Female', value: 'Female' },
-            { label: 'Other', value: 'Other' }
-        ]
-    }
-
 
     const handleChange = (name: string, value: any) => {
         setFormData(prev => ({ ...prev, [name]: value }))
@@ -121,11 +107,11 @@ const DynamicForm = ({ formColumnsArray, useFormControls, actionType, onActionHa
                                 key={col.Id}
                                 id={col.ColumnName}
                                 label={col.ColumnName}
-                                // options={dropdownData[col.DropdownId] || []}
                                 options={[
                                     { label: `Please select ${col.ColumnName}`, value: '' },
-                                    ...(dropdownData[col.DropdownId] || [])
+                                    ...(getDropdownOptions[col.DropdownId] || [])
                                 ]}
+                               
                                 required={col.IsRequired}
                                 value={formData[col.ColumnName]}
                                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>

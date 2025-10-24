@@ -118,6 +118,21 @@ const EmployeeFormPage = () => {
         }
     ]
 
+const getDropdownOptions = {
+    1: [
+        { label: 'HR', value: 'HR' },
+        { label: 'IT', value: 'IT' },
+        { label: 'Finance', value: 'Finance' }
+    ],
+    2: [
+        { label: 'Male', value: 'Male' },
+        { label: 'Female', value: 'Female' },
+        { label: 'Other', value: 'Other' }
+    ]
+}
+
+    
+
     return (
         <div className="container">
             <div className="card p-3">
@@ -126,6 +141,7 @@ const EmployeeFormPage = () => {
                     defaultOpen={true}
                     topButtonsComponent={CrudFormButtons}
                     formColumnsArray={UIColumnList}
+                     getDropdownOptions={getDropdownOptions} 
                     useFormControls={true}
                 />
 
