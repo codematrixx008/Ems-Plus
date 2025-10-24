@@ -29,6 +29,7 @@ import { SectionGridTopButtons } from "../components/controls/customcomponent/gr
 import { departmentRows, departmentSchema } from "../components/controls/customcomponent/grid2/schemas/department.schema";
 import { employeeProvider } from "../components/controls/customcomponent/grid2/section/providers/employeeProvider";
 import { employeeSchema as employeeSchema2, employeeRows as employeeRows2 } from "../components/controls/customcomponent/grid2/schemas/employee.schema";
+import EmployeeDetailPage3 from "./EmployeeDetailPage3";
 
 
 // ==============================================
@@ -233,7 +234,7 @@ export function ComplexControlDemo() {
                   </div>
                 ),
               },
-
+              { key: "detail3", label: "Details 3", content: <EmployeeDetailPage3 /> },
               { key: "custom", label: "Custom1", content: <div>Custom view</div> },
             ],
           },

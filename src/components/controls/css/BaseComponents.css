@@ -8,90 +8,92 @@
   =================================================== */
   --supreme-theme: pink;
 
-  /* ===============================
-    PINK THEME
-  =============================== */
-  --main-theme-pink: #ec1346;
-  /* vibrant pink */
-  --main-theme-pink-emboss: #8c2242;
-  /* deep rose */
-  --main-theme-pink-light: #fc6c64;
-  /* coral pink */
-  --main-theme-pink-toolight: #fdb9fd;
-  /* soft pastel pink */
 
   /* ===============================
-    GREEN THEME
+      ROSE / PINK THEME
   =============================== */
-  --main-theme-green: #377b06;
-  /* deep green */
-  --main-theme-green-emboss: #2d6b04;
-  /* darker forest tone */
-  --main-theme-green-light: #74c23d;
-  /* bright green accent */
-  --main-theme-green-toolight: #e9f6c6;
-  /* mint pastel background */
+  --main-theme-pink: #e91e63;
+  /* Elegant Rose */
+  --main-theme-pink-emboss: #b0003a;
+  /* Deep Rose */
+  --main-theme-pink-light: #ff7aa8;
+  /* Soft Rose Glow */
+  --main-theme-pink-toolight: #ffe4ec;
+  /* Blush Pink */
 
   /* ===============================
-    ORANGE THEME
+      EMERALD GREEN THEME
   =============================== */
-  --main-theme-orange: #e74818;
-  /* strong orange */
-  --main-theme-orange-emboss: #c73a0f;
-  /* dark orange hover */
-  --main-theme-orange-light: #ffb586;
-  /* peachy orange accent */
-  --main-theme-orange-toolight: #fff8f8;
-  /* light cream pastel */
+  --main-theme-green: #1da511;
+  /* Emerald Green */
+  --main-theme-green-emboss: #258d1e;
+  /* Dark Emerald */
+  --main-theme-green-light: #7ec556;
+  /* Soft Mint Glow */
+  --main-theme-green-toolight: #e3ffcb;
+  /* Pastel Mint */
 
   /* ===============================
-    BLUE THEME
+      SUNSET ORANGE THEME
   =============================== */
-  --main-theme-blue: #1741e8;
-  /* vivid royal blue */
-  --main-theme-blue-emboss: #153f66;
-  /* deep navy */
-  --main-theme-blue-light: #91b1fd;
-  /* light blue accent */
-  --main-theme-blue-toolight: #d3f5f1;
-  /* aqua pastel */
+  --main-theme-orange: #ff7b00;
+  /* Vibrant Sunset Orange */
+  --main-theme-orange-emboss: #c25300;
+  /* Deep Amber */
+  --main-theme-orange-light: #ffb366;
+  /* Peach Accent */
+  --main-theme-orange-toolight: #fff2e6;
+  /* Warm Cream */
 
   /* ===============================
-    PURPLE THEME
+      OCEAN BLUE THEME
   =============================== */
-  --main-theme-purple: #721ce3;
-  /* bright purple */
-  --main-theme-purple-emboss: #50085d;
-  /* deep violet */
-  --main-theme-purple-light: #b7b6e7;
-  /* lavender accent */
-  --main-theme-purple-toolight: #fbdcfe;
-  /* lilac pastel */
+  --main-theme-blue: #2563eb;
+  /* Royal Azure Blue */
+  --main-theme-blue-emboss: #1e3a8a;
+  /* Deep Indigo */
+  --main-theme-blue-light: #93c5fd;
+  /* Sky Blue Accent */
+  --main-theme-blue-toolight: #e8f1ff;
+  /* Ice Blue */
 
   /* ===============================
-    BROWN THEME
+      ROYAL PURPLE THEME
   =============================== */
-  --main-theme-brown: #ae6337;
-  /* medium brown */
-  --main-theme-brown-emboss: #4b1200;
-  /* dark espresso */
-  --main-theme-brown-light: #ce9a7e;
-  /* clay accent */
-  --main-theme-brown-toolight: #ffeedc;
-  /* warm beige background */
+  --main-theme-purple: #7c3aed;
+  /* Energetic Purple */
+  --main-theme-purple-emboss: #4c1d95;
+  /* Dark Plum */
+  --main-theme-purple-light: #c4b5fd;
+  /* Lavender Glow */
+  --main-theme-purple-toolight: #f3e8ff;
+  /* Soft Lilac */
 
   /* ===============================
-      🌑 DARK THEME
+      COFFEE BROWN THEME
   =============================== */
-  --main-theme-dark: #1f2937;
-  /* dark slate */
-  --main-theme-dark-emboss: #111827;
-  /* near black */
-  --main-theme-dark-light: #4b5563;
-  /* medium gray accent */
+  --main-theme-brown: #8d5524;
+  /* Coffee Brown */
+  --main-theme-brown-emboss: #5d3a1a;
+  /* Dark Chocolate */
+  --main-theme-brown-light: #d2a679;
+  /* Caramel Beige */
+  --main-theme-brown-toolight: #faeee3;
+  /* Warm Creamy Sand */
+
+  /* ===============================
+        DARK MODE (MODERN)
+  =============================== */
+  --main-theme-dark: #1e1e2d;
+  /* Matte Charcoal */
+  --main-theme-dark-emboss: #0f0f17;
+  /* Deep Night */
+  --main-theme-dark-light: #3a3a4f;
+  /* Soft Graphite */
   --main-theme-dark-toolight: #d1d5db;
-  /* light gray background */
+  /* Mist Gray */
 }
+
 
 /* ==============================
     Theme Auto-Mapping Using Supreme Selector
@@ -269,7 +271,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   color: var(--cx-heading);
   font-weight: 600;
   letter-spacing: -0.01em;
