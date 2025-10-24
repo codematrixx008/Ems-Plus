@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 
 type FormColumn = {
@@ -19,13 +19,16 @@ type FormColumn = {
     AllowMultiSelectSearch: boolean
 }
 
-type Props = {
+type DynamicFormProps = {
     formColumnsArray: FormColumn[]
-     onSubmit: (data: Record<string, any>) => void
-     useFormControls?: boolean
+    useFormControls?: boolean
+    actionType?: string | null; // 🔹 new: receives "save" / "cancel"
+    onActionHandled?: () => void; // 🔹 new: resets action after handling
 }
 
-const CommonFormComponent = ({ formColumnsArray, onSubmit, useFormControls }: Props) => {
+const DynamicForm = ({ formColumnsArray, useFormControls, actionType,
+    onActionHandled, }: DynamicFormProps) => {
+
     const initialFormState = formColumnsArray.reduce((acc, col) => {
         acc[col.ColumnName] = col.ComponentType === 'Checkbox' ? false : ''
         return acc
@@ -37,11 +40,27 @@ const CommonFormComponent = ({ formColumnsArray, onSubmit, useFormControls }: Pr
         setFormData((prev) => ({ ...prev, [name]: value }))
     }
 
-   
-    const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    onSubmit(formData) // send data to parent
-    }
+
+    const handleSubmit = (e?: React.FormEvent) => {
+        if (e) e.preventDefault(); // prevent page refresh
+        console.log('Form Submitted:', formData);
+    };
+
+
+    const handleCancel = () => {
+        console.log('❌ Form Reset');
+        setFormData(initialFormState);
+    };
+
+    useEffect(() => {
+        if (!actionType) return;
+        if (actionType === 'save') {
+            handleSubmit();
+        } else if (actionType === 'cancel') {
+            handleCancel();
+        }
+        onActionHandled?.(); // reset after handling
+    }, [actionType]);
 
     return (
         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -49,8 +68,8 @@ const CommonFormComponent = ({ formColumnsArray, onSubmit, useFormControls }: Pr
                 switch (col.ComponentType) {
                     case 'Textbox':
                         return (
-                            <>
                                 <BsInputControl
+                                    key={col.Id}
                                     id="name"
                                     label={col.ColumnName}
                                     placeholder={col.Placeholder}
@@ -59,8 +78,6 @@ const CommonFormComponent = ({ formColumnsArray, onSubmit, useFormControls }: Pr
                                         handleChange(col.ColumnName, e.target.value)
                                     }
                                 />
-
-                            </>
                         )
 
                     case 'CurrencyTextbox':
@@ -129,18 +146,18 @@ const CommonFormComponent = ({ formColumnsArray, onSubmit, useFormControls }: Pr
                         return null
                 }
             })}
-            {useFormControls && 
-            <div className="pt-4 flex justify-end gap-3">
-                <button type="submit" className="btn btn-primary">
-                    Submit
-                </button>
-                <button type="button" className="btn btn-danger">
-                    Delete
-                </button>
-            </div>
+            {useFormControls &&
+                <div className="pt-4 flex justify-end gap-3">
+                    <button type="submit" className="btn btn-primary">
+                        Save
+                    </button>
+                    <button type="button" className="btn btn-danger">
+                        Cancel
+                    </button>
+                </div>
             }
         </form>
     )
 }
 
-export default CommonFormComponent
+export default DynamicForm

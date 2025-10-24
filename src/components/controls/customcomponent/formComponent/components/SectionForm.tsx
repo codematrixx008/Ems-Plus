@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import CommonFormComponent from './CommonFormComponent';
 import { ActionIdentifier, GridActionEvent } from '../utils/actions';
 import { TopButtonsComponentProps } from '../utils/types';
+import DynamicForm from './DynamicForm';
 
-type Props = {
+type SectionFormProps = {
   title: string;
   defaultOpen?: boolean;
   topButtonsComponent?: React.ComponentType<TopButtonsComponentProps>;
-  onAction?: (e: GridActionEvent) => void;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   accordionId?: string;
@@ -32,11 +31,10 @@ type Props = {
   }[];
 };
 
-const FormComponent: React.FC<Props> = ({
+const SectionForm: React.FC<SectionFormProps> = ({
   title,
   defaultOpen = true,
   topButtonsComponent: TopButtonsComponent,
-  onAction,
   open,
   onOpenChange,
   accordionId,
@@ -47,28 +45,28 @@ const FormComponent: React.FC<Props> = ({
   const isControlled = typeof open === 'boolean';
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen);
   const isOpen = isControlled ? open! : internalOpen;
+  const [actionType, setActionType] = useState<ActionIdentifier|null>(null);
 
   const setOpen = (val: boolean) => {
     if (!isControlled) setInternalOpen(val);
     onOpenChange?.(val);
   };
 
+  const handleAction = (e: GridActionEvent) => {
+    console.log('Action:', e, e.identifier);
+    setActionType(e.identifier);
+  };
+
+
   const emit = (
     identifier: ActionIdentifier,
     value?: unknown,
     sender: GridActionEvent['sender'] = 'toolbar'
-  ) => onAction?.({ sender, identifier, value });
+  ) => handleAction?.({ sender, identifier, value });
 
   const baseId = accordionId ?? `sectiongrid-${title.replace(/\s+/g, '-').toLowerCase()}`;
   const hdrId = `${baseId}-header`;
   const panelId = `${baseId}-panel`;
-
-
-
-
-  const handleFormSubmit = (data: Record<string, any>) => {
-    console.log('Received Form Data from Child:', data)
-  }
 
 
   return (
@@ -108,10 +106,11 @@ const FormComponent: React.FC<Props> = ({
               content: (
                 <div className="sg-accordion__content">
                   <div className="p-2">
-                    <CommonFormComponent
+                    <DynamicForm
                       formColumnsArray={formColumnsArray}
-                      onSubmit={handleFormSubmit}
                       useFormControls={useFormControls}
+                      actionType={actionType} 
+                      onActionHandled={() => setActionType(null)}
                     />
                   </div>
                 </div>
@@ -127,4 +126,4 @@ const FormComponent: React.FC<Props> = ({
   );
 };
 
-export default FormComponent;
+export default SectionForm;
