@@ -61,7 +61,7 @@ const EmployeeDetailPage3: React.FC = () => {
                     optionProviders={optionProviders}
                 >
                     <EmployeeAddModal3 modalType="Add" />
-                    <EmployeeEditModal3 modalType="Edit" />
+                    {/* <EmployeeEditModal3 modalType="Edit" /> */}
                 </SectionGrid3>
             </div>
 
@@ -84,7 +84,7 @@ const EmployeeDetailPage3: React.FC = () => {
                         alert(`Phone Numbers action: ${id}, payload=${JSON.stringify(payload)}`);
                     }}
                     topButtonsComponent={PhoneButtons}
-                    useGridControls={false}
+                    useGridControls={true}
                     optionProviders={optionProviders}
                 />
             </div>
